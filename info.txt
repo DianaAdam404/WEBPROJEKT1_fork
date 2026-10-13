@@ -1,3 +1,6 @@
 npx express-generator backend --no-view
 
 npm create vite@latest frontend -- --template react
+
+npx create-expo-app@latest mobilprojekt
+npx expo start
