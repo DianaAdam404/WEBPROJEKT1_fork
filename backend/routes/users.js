@@ -11,4 +11,10 @@ router.get('/test', function(req, res, next) {
   res.send('respond with a test resource');
 });
 
+// /register
+
+// /login
+
+
+
 export default router;
