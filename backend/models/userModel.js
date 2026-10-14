@@ -20,3 +20,5 @@ const UserModel = {
     return { id: result.insertId, ...user };
   }
 }
+
+export default UserModel;

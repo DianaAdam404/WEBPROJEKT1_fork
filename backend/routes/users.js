@@ -1,20 +1,10 @@
 //var express = require('express');
 import express from 'express';
+import userController from '../controllers/userController.js';
 var router = express.Router();
 
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
-
-router.get('/test', function(req, res, next) {
-  res.send('respond with a test resource');
-});
-
-// /register
-
-// /login
-
-
+//app.js prefix: /users
+router.get('/', userController.getAll); // Összes felhasználó lekérése
+router.get('/:id', userController.getById); // Felhasználó lekérése ID alapján
 
 export default router;
