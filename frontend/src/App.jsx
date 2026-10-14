@@ -1,12 +1,16 @@
 import './App.css'
 import TermekLista from './components/TermekLista'
+import LoginForm from './components/LoginForm'
 
 function App() {
 
 
   return (
     <>
-      <TermekLista />
+    <LoginForm />
+    <hr />
+    <h1>Termékek</h1>
+     
     </>
   )
 }
