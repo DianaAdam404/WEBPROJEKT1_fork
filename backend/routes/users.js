@@ -7,5 +7,6 @@ var router = express.Router();
 router.get('/', userController.getAll); // Összes felhasználó lekérése
 router.get('/:id', userController.getById); // Felhasználó lekérése ID alapján
 router.post('/', userController.create); // Új felhasználó hozzáadása
+router.post('/login', userController.login); // Login
 
 export default router;

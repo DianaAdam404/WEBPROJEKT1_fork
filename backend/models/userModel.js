@@ -18,7 +18,14 @@ const UserModel = {
     const {email, password, name, phone, profileimage } = user;
     const [result] = await pool.query('INSERT INTO users ( email, password, name, phone, profileimage) VALUES (?, ?, ?, ?, ?)', [email, password, name, phone, profileimage]);
     return { id: result.insertId, ...user };
+  },
+
+    // Felhasználó lekérése email alapján
+    async getByEmail(email) {
+    const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [email]);
+    return rows[0];
   }
+
 }
 
 export default UserModel;
