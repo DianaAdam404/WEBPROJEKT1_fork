@@ -20,13 +20,26 @@ const UserController = {
             if (user) {
                 res.json(user);
             } else {
-                res.status(404).json({ error: 'User not found' });
+                res.status(404).json({ error: 'Nincs ilyen felhasználó' });
             }
         } catch (error) {
             console.error('Error fetching user:', error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
+    },
+
+    // Új felhasználó hozzáadása
+    async create(req, res) {
+        const { email, password, name, phone, profileimage } = req.body;
+        try {
+            const newUser = await userModel.create({ email, password, name, phone, profileimage });
+            res.status(201).json(newUser);
+        } catch (error) {
+            console.error('Error creating user:', error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        }
     }
+
 }
 
 export default UserController;
