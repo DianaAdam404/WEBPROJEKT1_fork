@@ -1,5 +1,6 @@
 import userModel from '../models/userModel.js';
 import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 const UserController = {
     // Összes felhasználó lekérése
@@ -61,7 +62,11 @@ const UserController = {
                 return;
             }
             await userModel.updateLastLogin(user.id); // lastlogin frissítése
-            res.json({ message: 'Sikeres bejelentkezés', user }); //200
+
+            const accessToken = jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_ACCESS_SECRET, { expiresIn: '10m' });
+            const refreshToken = jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_REFRESH_SECRET, { expiresIn: '7d' });
+
+            res.json({ message: 'Sikeres bejelentkezés', user, accessToken, refreshToken });
         } catch (error) {
             console.error('Error during login:', error);
             res.status(500).json({ error: 'Internal Server Error' });
