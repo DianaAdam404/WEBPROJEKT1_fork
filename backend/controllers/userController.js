@@ -69,11 +69,18 @@ const UserController = {
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true, // Csak a szerver férhet hozzá, nem a kliens oldali JavaScript
                 secure: false, // Csak HTTPS-en keresztül küldhető
-                sameSite: 'Strict', // CSRF elleni védelem (Cross-Site Request Forgery)
+                sameSite: 'strict', // CSRF elleni védelem (Cross-Site Request Forgery)
                 maxAge: 7 * 24 * 60 * 60 * 1000 // 7 nap
             });
 
-            res.json({ message: 'Sikeres bejelentkezés', accessToken});
+            res.cookie('accessToken', accessToken, {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'strict',
+                maxAge: 10 * 60 * 1000 // 10 perc
+            });
+
+            res.json({ message: 'Sikeres bejelentkezés'});
         } catch (error) {
             console.error('Error during login:', error);
             res.status(500).json({ error: 'Internal Server Error' });
@@ -83,19 +90,31 @@ const UserController = {
     async refreshToken(req, res) {
         const refreshToken = req.cookies.refreshToken;
         if (!refreshToken) {
-            return res.status(401).json({ error: 'Nincs frissítő token' });
+            return res.status(401).json({ error: 'Nincs frissítő token' }); //401 Unauthorized
         }
         
         jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET, (err, user) => {
             if (err) {
-                return res.status(403).json({ error: 'Érvénytelen frissítő token' });
+                return res.status(401).json({ error: 'Érvénytelen frissítő token' }); //401 Unauthorized
             }
           const newAccessToken = jwt.sign({ id: user.id, email: user.email, role: user.role }, process.env.JWT_ACCESS_SECRET, { expiresIn: '10m' });
-        res.json({ accessToken: newAccessToken });
+
+          res.cookie('accessToken', newAccessToken, {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'strict',
+                maxAge: 10 * 60 * 1000 // 10 perc
+            });
+        res.json({ "message": "Sikeres token frissítés" });
         });
     },
     async logout(req, res) {
         res.clearCookie('refreshToken', {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'Strict'
+        });
+        res.clearCookie('accessToken', {
             httpOnly: true,
             secure: false,
             sameSite: 'Strict'
