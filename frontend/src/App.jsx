@@ -8,6 +8,7 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import MultiForm from './components/MultiForm'
 import AdminPage from './components/AdminPage'
+import TestForm from './components/TestForm'
 import {BrowserRouter as Router, Routes, Route} from 'react-router-dom'
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
           <Route path="/user" element={<UserForm />} />
           <Route path="/multi-form" element={<MultiForm />} />
           <Route path="/admin" element={<AdminPage />} />
+          <Route path="/test" element={<TestForm />} />
         </Routes>
         <Footer />
       </Router>

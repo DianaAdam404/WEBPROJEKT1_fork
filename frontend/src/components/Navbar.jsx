@@ -10,6 +10,7 @@ export default function Navbar() {
             <NavLink to="/user">Felhasználó</NavLink>
             <NavLink to="/multi-form">MultiForm</NavLink>
             <NavLink to="/admin">Admin</NavLink>
+            <NavLink to="/test">TestForm</NavLink>
         </nav>
     )
 }

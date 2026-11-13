@@ -20,7 +20,10 @@ import termekekRouter from './routes/termekek.js';
 
 var app = express();
 
-app.use(cors());  // Engedélyezés minden domain számára (CORS)
+app.use(cors({
+    origin: true, // Engedélyezi minden domain számára
+    credentials: true // Engedélyezi a hitelesítő adatok küldését Cookie-kel (pl. a refresh token)
+}));  
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
